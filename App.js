@@ -9,16 +9,17 @@ import { CombinedDarkTheme, CombinedDefaultTheme } from "./constants/theme";
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isDarkTheme, setIsDarkTheme] = useState(true);
 
-  const theme = !true? CombinedDarkTheme : CombinedDefaultTheme;
+  const theme = isDarkTheme? CombinedDarkTheme : CombinedDefaultTheme;
 
   return (
     <>
-      <StatusBar style="auto" />
+      <StatusBar style={isDarkTheme ? "light" : "dark"} />
 
       <PaperProvider theme={theme}>
         {isLoggedIn ? (
-          <MainNavigator theme={theme} />
+          <MainNavigator theme={theme} setIsDarkTheme={setIsDarkTheme} setIsLoggedIn={setIsLoggedIn} />
         ) : (
           <AuthScreen setIsLoggedIn={setIsLoggedIn} />
         )}

@@ -2,12 +2,12 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import PatientScreen from "../screens/PatientScreen";
 import HouseScreen from "../screens/HouseScreen";
 import { CommonActions } from "@react-navigation/native";
-import { BottomNavigation, useTheme } from "react-native-paper";
+import { BottomNavigation, Button, useTheme } from "react-native-paper";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const Tab = createBottomTabNavigator();
 
-export default function TabNavigator() {
+export default function TabNavigator({ setIsDarkTheme }) {
 
   const { colors } = useTheme();
 
@@ -15,8 +15,22 @@ export default function TabNavigator() {
     <Tab.Navigator
       initialRouteName="Patient"
       screenOptions={{
+        headerTitleAlign: "center",
+        headerLeft: null,
+        headerRight: () => {
+          return (
+            <Button
+              icon="theme-light-dark"
+              onPress={() => {
+                setIsDarkTheme((isDarkTheme) => !isDarkTheme);
+              }}
+              compact
+            />
+          );
+        },
         headerStyle: {
           backgroundColor: colors.elevation.level2,
+          elevation: 0,
         },
       }}
       tabBar={({ navigation, state, descriptors, insets }) => (

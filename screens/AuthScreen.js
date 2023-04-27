@@ -3,8 +3,7 @@ import { StyleSheet, View } from "react-native";
 import { Button, Text, TextInput, useTheme } from "react-native-paper";
 
 export default function AuthScreen({ setIsLoggedIn }) {
-
-  const {colors} = useTheme()
+  const { colors } = useTheme();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -20,8 +19,10 @@ export default function AuthScreen({ setIsLoggedIn }) {
   }
 
   return (
-    <View style={[styles.container, {backgroundColor: colors.background}]}>
-      <Text variant="displayLarge" style={{marginBottom: 50}}>Hello!</Text>
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
+      <Text variant="displayLarge" style={{ marginBottom: 50 }}>
+        Hello!
+      </Text>
 
       <TextInput
         style={styles.input}
@@ -48,13 +49,13 @@ export default function AuthScreen({ setIsLoggedIn }) {
         onBlur={() => setShowPassword(false)}
       />
 
-      <Button 
+      <Button
         mode="contained"
         icon="login"
         loading={isLoading}
         onPress={handleLogin}
-        theme={{colors: {primary: colors.primary}}}
-      >
+        theme={{ colors: { primary: colors.primary } }}
+        uppercase>
         Login
       </Button>
     </View>
