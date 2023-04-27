@@ -1,6 +1,7 @@
 import { StyleSheet, View } from 'react-native'
 import React from 'react'
 import { Avatar, Text, useTheme } from 'react-native-paper';
+import DeviceStatus from './DeviceStatus';
 
 export default function Header() {
 
@@ -12,6 +13,7 @@ export default function Header() {
       <View>
         <Text variant="titleLarge" style={{fontWeight: 'bold'}}>John Doe</Text>
         <Text variant="titleSmall">ID: 123456789</Text>
+        <DeviceStatus />
       </View>
     </View>
   )
@@ -23,8 +25,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 32,
     width: '100%',
-    height: "15%",
+    height: "18%",
     borderBottomRightRadius: 128,
     paddingHorizontal: 16,
+    marginBottom: 16
   }
 })

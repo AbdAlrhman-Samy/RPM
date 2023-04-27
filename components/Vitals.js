@@ -1,9 +1,14 @@
 import { View, StyleSheet } from "react-native";
 import Widget from "./Widget";
+import { Text } from "react-native-paper";
 
 export default function Vitals() {
   return (
-    <>
+    <View style={{ marginTop: 16 }}>
+      <Text variant="titleLarge" style={{ textAlign: "center", fontWeight: "bold" }}>
+        Patient Vitals
+      </Text>
+
       <View style={styles.row}>
         <Widget
           title="Heart Rate"
@@ -28,7 +33,7 @@ export default function Vitals() {
           icon={{ name: "human", color: "orchid" }}
         />
       </View>
-    </>
+    </View>
   );
 }
 

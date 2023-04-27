@@ -13,10 +13,7 @@ export default function DeviceStatus() {
 const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
-    gap: 16,
-    justifyContent: 'center',
-    width: '100%',
-    alignItems: 'center',
-    padding: 16
+    gap: 8,
+    marginVertical: 8,
   }
 });

@@ -15,8 +15,6 @@ export default function TabNavigator({ setIsDarkTheme }) {
     <Tab.Navigator
       initialRouteName="Patient"
       screenOptions={{
-        headerTitleAlign: "center",
-        headerLeft: null,
         headerRight: () => {
           return (
             <Button
