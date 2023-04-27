@@ -4,6 +4,7 @@ import HouseScreen from "../screens/HouseScreen";
 import { CommonActions } from "@react-navigation/native";
 import { BottomNavigation, Button, useTheme } from "react-native-paper";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import PatientStackNavigator from "./PatientStackNavigator";
 
 const Tab = createBottomTabNavigator();
 
@@ -75,13 +76,14 @@ export default function TabNavigator({ setIsDarkTheme }) {
 
       <Tab.Screen
         name="Patient"
-        component={PatientScreen}
+        component={PatientStackNavigator}
         options={{
           tabBarLabel: "Patient",
           tabBarIcon: ({ color, size }) => {
             return <Icon name="account" size={size} color={color} />;
           },
         }}
+        
       />
       <Tab.Screen
         name="House"
@@ -90,7 +92,7 @@ export default function TabNavigator({ setIsDarkTheme }) {
           tabBarLabel: "House",
           tabBarIcon: ({ color, size }) => {
             return <Icon name="home" size={size} color={color} />;
-          }
+          },
         }}
       />
 

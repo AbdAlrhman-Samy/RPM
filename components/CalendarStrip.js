@@ -1,13 +1,17 @@
 import { Pressable, StyleSheet } from "react-native";
 import React, { useState } from "react";
 import { Surface, Text, useTheme } from "react-native-paper";
+import { useNavigation } from "@react-navigation/native";
 
 export default function CalendarStrip() {
-  const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  // array of days with fullname
+  const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
   const date = new Date();
 
   const [currentDay, setCurrentDay] = useState(date.getDay());
   const { colors } = useTheme();
+
+  const navigation = useNavigation();
 
   return (
     <>
@@ -32,12 +36,11 @@ export default function CalendarStrip() {
                 },
               ]}>
               <Pressable
-                // onPress={() => setCurrentDay(index)}
+                onPress={() => navigation.navigate("Medication Details", {day: day})}
                 android_ripple={{ color: "white", borderless: true }}
                 style={styles.dayPressable}>
-                <Text>{index + 1}</Text>
                 <Text variant="titleMedium" style={{ fontWeight: "bold" }}>
-                  {day}
+                  {day.slice(0, 3)}
                 </Text>
               </Pressable>
             </Surface>
