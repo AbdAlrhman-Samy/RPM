@@ -2,7 +2,7 @@ import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Button, Text, TextInput, useTheme } from "react-native-paper";
 
-export default function AuthScreen({ setIsLoggedIn }) {
+export default function AuthScreen({ setIsLoggedIn, isConnected }) {
   const { colors } = useTheme();
 
   const [email, setEmail] = useState("");
@@ -26,6 +26,7 @@ export default function AuthScreen({ setIsLoggedIn }) {
 
       <TextInput
         style={styles.input}
+        disabled={!isConnected}
         label="Email"
         left={<TextInput.Icon icon="email" />}
         value={email}
@@ -35,6 +36,7 @@ export default function AuthScreen({ setIsLoggedIn }) {
       <TextInput
         style={styles.input}
         label="Password"
+        disabled={!isConnected}
         left={<TextInput.Icon icon="lock" />}
         value={password}
         onChangeText={(text) => setPassword(text)}
@@ -55,8 +57,10 @@ export default function AuthScreen({ setIsLoggedIn }) {
         loading={isLoading}
         onPress={handleLogin}
         theme={{ colors: { primary: colors.primary } }}
-        uppercase>
-        Login
+        uppercase
+        disabled={!isConnected}
+        >
+        {isConnected ? "Login" : "Please connect to the internet first."}
       </Button>
     </View>
   );
