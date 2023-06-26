@@ -10,7 +10,7 @@ import { CombinedDarkTheme, CombinedDefaultTheme } from "./constants/theme";
 import useNetwork from "./hooks/useNetwork";
 
 export default function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [isDarkTheme, setIsDarkTheme] = useState(true);
 
   const isConnected = useNetwork();

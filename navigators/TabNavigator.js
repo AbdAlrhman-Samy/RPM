@@ -1,27 +1,39 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import PatientScreen from "../screens/PatientScreen";
 import HouseScreen from "../screens/HouseScreen";
 import { CommonActions } from "@react-navigation/native";
 import { BottomNavigation, Button, useTheme } from "react-native-paper";
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import PatientStackNavigator from "./PatientStackNavigator";
 
 const Tab = createBottomTabNavigator();
 
-export default function TabNavigator({ setIsDarkTheme }) {
-
+export default function TabNavigator({ setIsDarkTheme, setIsLoggedIn }) {
   const { colors } = useTheme();
 
   return (
     <Tab.Navigator
       initialRouteName="Patient"
       screenOptions={{
+        title: null,
         headerRight: () => {
           return (
             <Button
               icon="theme-light-dark"
               onPress={() => {
                 setIsDarkTheme((isDarkTheme) => !isDarkTheme);
+              }}
+              compact
+            />
+          );
+        },
+        headerLeft: () => {
+          return (
+            <Button
+              icon="logout"
+              style={{ marginLeft: 8 }}
+              textColor="indianred"
+              onPress={() => {
+                setIsLoggedIn(false);
               }}
               compact
             />
@@ -73,7 +85,6 @@ export default function TabNavigator({ setIsDarkTheme }) {
           }}
         />
       )}>
-
       <Tab.Screen
         name="Patient"
         component={PatientStackNavigator}
@@ -83,7 +94,6 @@ export default function TabNavigator({ setIsDarkTheme }) {
             return <Icon name="account" size={size} color={color} />;
           },
         }}
-        
       />
       <Tab.Screen
         name="House"
@@ -95,7 +105,6 @@ export default function TabNavigator({ setIsDarkTheme }) {
           },
         }}
       />
-
     </Tab.Navigator>
   );
 }
