@@ -4,11 +4,15 @@ import { CommonActions } from "@react-navigation/native";
 import { BottomNavigation, Button, useTheme } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import PatientStackNavigator from "./PatientStackNavigator";
+import pb from "../pocketbase";
+import useAuth from "../hooks/useAuth";
 
 const Tab = createBottomTabNavigator();
 
-export default function TabNavigator({ setIsDarkTheme, setIsLoggedIn }) {
+export default function TabNavigator({ setIsDarkTheme }) {
   const { colors } = useTheme();
+
+  const {logout} = useAuth();
 
   return (
     <Tab.Navigator
@@ -32,9 +36,7 @@ export default function TabNavigator({ setIsDarkTheme, setIsLoggedIn }) {
               icon="logout"
               style={{ marginLeft: 8 }}
               textColor="indianred"
-              onPress={() => {
-                setIsLoggedIn(false);
-              }}
+              onPress={() => logout() }
               compact
             />
           );

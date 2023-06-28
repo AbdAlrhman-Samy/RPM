@@ -2,20 +2,22 @@ import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Button, Text, TextInput, useTheme } from "react-native-paper";
 
+import useAuth from "../hooks/useAuth";
+
 export default function AuthScreen({ setIsLoggedIn, isConnected }) {
   const { colors } = useTheme();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+
+  const {login, isLoading, error} = useAuth()
 
   function handleLogin() {
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoggedIn(true);
-      setIsLoading(false);
-    }, 1500);
+    login(email, password).then(() => {
+      setPassword("");
+      setEmail("");
+    });
   }
 
   return (
@@ -23,6 +25,8 @@ export default function AuthScreen({ setIsLoggedIn, isConnected }) {
       <Text variant="displayLarge" style={{ marginBottom: 50 }}>
         Hello!
       </Text>
+
+      {error && <Text style={styles.alert}>{error}</Text>}
 
       <TextInput
         style={styles.input}
@@ -58,8 +62,7 @@ export default function AuthScreen({ setIsLoggedIn, isConnected }) {
         onPress={handleLogin}
         theme={{ colors: { primary: colors.primary } }}
         uppercase
-        disabled={!isConnected}
-        >
+        disabled={!isConnected}>
         {isConnected ? "Login" : "Please connect to the internet first."}
       </Button>
     </View>
@@ -76,5 +79,15 @@ const styles = StyleSheet.create({
 
   input: {
     width: "80%",
+  },
+
+  alert: {
+    backgroundColor: "indianred",
+    color: "white",
+    fontWeight: "bold",
+    padding: 8,
+    borderRadius: 8,
+    textAlign: "center",
+    marginTop: 16,
   },
 });
