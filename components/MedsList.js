@@ -1,7 +1,7 @@
 import { FlatList, StyleSheet } from "react-native";
 import { Button, List, Surface } from "react-native-paper";
 
-export default function MedsList() {
+export default function MedsList({meds}) {
 
   const date = new Date();
   //time in 12:00AM format
@@ -10,7 +10,7 @@ export default function MedsList() {
   return (
     <Surface style={styles.container}>
       <FlatList
-        data={dummyData}
+        data={meds}
         renderItem={({ item }) => (
           <List.Item
             title={item.name}
@@ -27,7 +27,7 @@ export default function MedsList() {
             }}
           />
         )}
-        keyExtractor={(item) => item.name}
+        keyExtractor={(item) => item.name + item.dosage + item.time}
       />
     </Surface>
   );
@@ -43,44 +43,3 @@ const styles = StyleSheet.create({
     marginBottom: 32,
   },
 });
-
-
-// TODO: Replace this with data from the database
-const dummyData = [
-  {
-    name: "Aspirin",
-    dosage: "100mg",
-    time: "8:00 AM",
-  },
-  {
-    name: "Lisinopril",
-    dosage: "10mg",
-    time: "12:00 PM",
-  },
-  {
-    name: "Metoprolol",
-    dosage: "25mg",
-    time: "3:00 PM",
-  },
-  {
-    name: "Atorvastatin",
-    dosage: "20mg",
-    time: "9:00 PM",
-  },
-  {
-    name: "Ibuprofen",
-    dosage: "100mg",
-    time: "8:00 AM",
-  },
-  {
-    name: "Catafast",
-    dosage: "10mg",
-    time: "12:00 PM",
-  },
-  {
-    name: "Idklmao",
-    dosage: "25mg",
-    time: "3:00 PM",
-  },
-  
-];
