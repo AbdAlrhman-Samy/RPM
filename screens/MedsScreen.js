@@ -1,17 +1,29 @@
-import { StyleSheet, View } from "react-native";
-import { useState } from "react";
+import { StyleSheet, ToastAndroid, View } from "react-native";
+import { useEffect, useState } from "react";
 import { Button, Text } from "react-native-paper";
 import MedsList from "../components/MedsList";
 import MedsModal from "../components/MedsModal";
+import useDatabase from "../hooks/useDatabase";
 
 export default function MedsScreen({ route }) {
   const { day } = route.params;
 
   const [isVisible, setIsVisible] = useState(false);
-  // find the day in the dummy data and get the meds for that day
-  const [meds, setMeds] = useState(
-    dummyData.find((item) => item.day === day).meds
-  );
+  const {
+    data: meds,
+    isLoading,
+    isValidating,
+    error,
+    mutate,
+  } = useDatabase("meds", `day="${day}"`);
+
+  if (error) {
+    alert("Error getting meds", error);
+  }
+
+  if (isValidating) {
+    ToastAndroid.show("Checking for updates...", ToastAndroid.SHORT);
+  }
 
   return (
     <View>
@@ -19,31 +31,16 @@ export default function MedsScreen({ route }) {
         {day} Medications
       </Text>
 
-      <MedsList meds={meds} />
+      <MedsList meds={meds} isLoading={isLoading} mutate={mutate} />
 
-      <View style={styles.row}>
-        <Button
-          mode="contained-tonal"
-          onPress={() => setMeds([])}
-          style={{ flex: 1 }}>
-          Clear All
-        </Button>
+      <Button
+        mode="contained"
+        onPress={() => setIsVisible(true)}
+        style={{ marginHorizontal: 32 }}>
+        Add Medication
+      </Button>
 
-        <Button
-          mode="contained"
-          onPress={() => setIsVisible(true)}
-          style={{ flex: 1 }}>
-          Add Medication
-        </Button>
-      </View>
-
-      <MedsModal
-        isVisible={isVisible}
-        setIsVisible={setIsVisible}
-        day={day}
-        setMeds={setMeds}
-        meds={meds}
-      />
+      <MedsModal isVisible={isVisible} setIsVisible={setIsVisible} day={day} mutate={mutate} />
     </View>
   );
 }

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import pb from "../pocketbase";
 import { ToastAndroid } from "react-native";
+import pb from "../pocketbase";
 
 export default function useAuth() {
   const [isLoggedIn, setIsLoggedIn] = useState(pb.authStore.isValid);
@@ -12,9 +12,7 @@ export default function useAuth() {
       setIsLoggedIn(pb.authStore.isValid);
     });
 
-    return () => {
-      unsubscribe();
-    };
+    return () => unsubscribe();
   }, []);
 
   async function login(email, pswrd) {
@@ -27,7 +25,7 @@ export default function useAuth() {
     }
 
     try {
-      await pb.collection("users").authWithPassword(email.trim(), pswrd.trim());
+      await pb.admins.authWithPassword(email.trim(), pswrd.trim());
       setIsLoading(false);
       setError(null);
       ToastAndroid.show("Logged in successfully!", ToastAndroid.SHORT);

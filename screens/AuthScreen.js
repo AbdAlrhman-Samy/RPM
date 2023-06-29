@@ -35,6 +35,7 @@ export default function AuthScreen({ setIsLoggedIn, isConnected }) {
         left={<TextInput.Icon icon="email" />}
         value={email}
         onChangeText={(text) => setEmail(text)}
+        keyboardType="email-address"
       />
 
       <TextInput
