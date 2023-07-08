@@ -9,10 +9,22 @@ export default function HouseScreen() {
   const theme = useTheme();
 
   const [isFanOn, setIsFanOn] = useState(false);
+  const [isLivingRoomLightOn, setIsLivingRoomLightOn] = useState(false);
+  const [isBedroomLightOn, setIsBedroomLightOn] = useState(false);
 
   function handleFanToggle() {
     console.log("Fan toggled");
     setIsFanOn((prev) => !prev);
+  }
+
+  function handleLivingRoomLightToggle() {
+    console.log("Living room light toggled");
+    setIsLivingRoomLightOn((prev) => !prev);
+  }
+
+  function handleBedroomLightToggle() {
+    console.log("Bedroom light toggled");
+    setIsBedroomLightOn((prev) => !prev);
   }
 
   return (
@@ -27,50 +39,75 @@ export default function HouseScreen() {
         </Text>
 
         <View style={styles.row}>
-          <View style={styles.column}>
-            <Widget
-              title="Temperature"
-              icon={{ name: "thermometer", color: "orangered" }}
-              value="25"
-              unit="°Celcius"
-            />
+          <Widget
+            title="Temperature"
+            icon={{ name: "thermometer", color: "orangered" }}
+            value="25"
+            unit="°Celcius"
+          />
 
-            <Widget
-              title="Gas Level"
-              icon={{ name: "gas-cylinder", color: "cadetblue" }}
-              value="25"
-              unit="PPM"
-            />
-          </View>
-
-          <Card style={styles.fanControl}>
-            <Text
-              variant="headlineLarge"
-              style={{ fontWeight: "bold", textAlign: "center" }}>
-              Fan
-            </Text>
-
+          <Widget
+            title="Gas Level"
+            icon={{ name: "gas-cylinder", color: "cadetblue" }}
+            value="25"
+            unit="PPM"
+          />
+        </View>
+        <View style={styles.row}>
+          <Card style={styles.control}>
             <MaterialCommunityIcons
               name={isFanOn ? "fan" : "fan-off"}
-              size={64}
+              size={32}
               color={isFanOn ? theme.colors.primary : theme.colors.disabled}
-              style={{ marginVertical: 16 }}
+              style={{ alignSelf: "center" }}
+            />
+            <Text
+              variant="titleMedium"
+              style={{ fontWeight: "bold", textAlign: "center" }}>
+              Kitchen Fan
+            </Text>
+
+            <Switch value={isFanOn} onValueChange={handleFanToggle} style={{ alignSelf: "center" }} />
+          </Card>
+
+          <Card style={styles.control}>
+            <MaterialCommunityIcons
+              name={isLivingRoomLightOn ? "lightbulb-on" : "lightbulb-off"}
+              size={32}
+              color={isLivingRoomLightOn ? theme.colors.primary : theme.colors.disabled}
+              style={{ alignSelf: "center" }}
             />
 
-            <Switch value={isFanOn} onValueChange={handleFanToggle} />
+            
+            <Text
+              variant="titleMedium"
+              style={{ fontWeight: "bold", textAlign: "center" }}>
+              Living Room
+            </Text>
+
+            <Switch value={isLivingRoomLightOn} onValueChange={handleLivingRoomLightToggle} style={{ alignSelf: "center" }} />
+          </Card>
+
+          <Card style={styles.control}>
+            <MaterialCommunityIcons
+              name={isBedroomLightOn ? "lightbulb-on" : "lightbulb-off"}
+              size={32}
+              color={isBedroomLightOn ? theme.colors.primary : theme.colors.disabled}
+              style={{ alignSelf: "center" }}
+            />
+            <Text
+              variant="titleMedium"
+              style={{ fontWeight: "bold", textAlign: "center" }}>
+              Bedroom
+            </Text>
+
+            <Switch value={isBedroomLightOn} onValueChange={handleBedroomLightToggle} style={{ alignSelf: "center" }} />
           </Card>
         </View>
       </View>
 
       <Divider style={{ marginVertical: 16 }} />
 
-      <View style={styles.test}>
-        <Text
-          variant="titleLarge"
-          style={{ textAlign: "center", fontWeight: "bold", flex: 1 }}>
-          Front Door Camera
-        </Text>
-      </View>
     </View>
   );
 }
@@ -85,20 +122,13 @@ const styles = StyleSheet.create({
     flex: 2,
     padding: 8,
     height: "100%",
-    marginBottom: 8
-  },
-
-  test: {
-    flex: 1,
-    padding: 8,
-    flexDirection: "row",
+    marginBottom: 8,
   },
 
   row: {
     flexDirection: "row",
     justifyContent: "center",
     width: "100%",
-    height: "100%",
     gap: 8,
     padding: 8,
   },
@@ -110,9 +140,10 @@ const styles = StyleSheet.create({
     flex: 3,
   },
 
-  fanControl: {
+  control: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "space-evenly",
     alignItems: "center",
+    padding: 8,
   },
 });
