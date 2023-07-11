@@ -14,7 +14,8 @@ export default function AuthScreen({ setIsLoggedIn, isConnected }) {
   const {login, isLoading, error} = useAuth()
 
   function handleLogin() {
-    login(email, password).then(() => {
+    // !: replace creds with email and password variables
+    login("main@rpm.com", "1234567890").then(() => {
       setPassword("");
       setEmail("");
     });
