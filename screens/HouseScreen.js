@@ -1,8 +1,7 @@
 import { StyleSheet, View } from "react-native";
-import { Divider, Text } from "react-native-paper";
-import Widget from "../components/Widget";
 import HouseHeader from "../components/HouseHeader";
 import HouseControls from "../components/HouseControls";
+import Gauge from "../components/Gauge";
 import HouseStatus from "../components/HouseStatus";
 
 export default function HouseScreen() {
@@ -11,12 +10,8 @@ export default function HouseScreen() {
       <HouseHeader />
 
       <View style={styles.content}>
-        <Text variant="titleLarge" style={styles.title}>
-          Fire Detection
-        </Text>
-
-        <HouseStatus />
         <HouseControls />
+        <HouseStatus />
       </View>
     </View>
   );
@@ -30,9 +25,11 @@ const styles = StyleSheet.create({
 
   content: {
     flex: 1,
-    padding: 8,
-    height: "100%",
-    marginBottom: 8,
+    padding: 16,
+    marginVertical: 16,
+    alignContent: "center",
+    justifyContent: "center",
+    gap: 8,
   },
 
   title: {

@@ -4,7 +4,6 @@ import { CommonActions } from "@react-navigation/native";
 import { BottomNavigation, Button, useTheme } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import PatientStackNavigator from "./PatientStackNavigator";
-import pb from "../pocketbase";
 import useAuth from "../hooks/useAuth";
 
 const Tab = createBottomTabNavigator();
@@ -91,9 +90,9 @@ export default function TabNavigator({ setIsDarkTheme }) {
         name="Patient"
         component={PatientStackNavigator}
         options={{
-          tabBarLabel: "Patient",
+          tabBarLabel: "Smartband",
           tabBarIcon: ({ color, size }) => {
-            return <Icon name="account" size={size} color={color} />;
+            return <Icon name="watch" size={size} color={color} />;
           },
         }}
       />

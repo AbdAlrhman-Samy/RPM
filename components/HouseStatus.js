@@ -1,22 +1,24 @@
 import { StyleSheet, View } from "react-native";
-import Widget from "./Widget";
+import Gauge from "./Gauge";
 
 export default function HouseStatus() {
   return (
     <View style={styles.container}>
-      <Widget
-        title="Temperature"
-        icon={{ name: "thermometer", color: "orangered" }}
-        value="25"
-        unit="°Celcius"
-      />
+      <Gauge
+            max={80}
+            value={25}
+            title="Temperature"
+            icon={{ name: "thermometer", color: "orangered" }}
+            unit="°C"
+          />
 
-      <Widget
-        title="Gas Level"
-        icon={{ name: "gas-cylinder", color: "cadetblue" }}
-        value="25"
-        unit="PPM"
-      />
+          <Gauge
+            title="Gas Level"
+            icon={{ name: "gas-cylinder", color: "cadetblue" }}
+            max={100}
+            value={80}
+            unit="PPM"
+          />
     </View>
   );
 }
@@ -25,8 +27,6 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     justifyContent: "center",
-    width: "100%",
     gap: 8,
-    padding: 8,
   },
 });

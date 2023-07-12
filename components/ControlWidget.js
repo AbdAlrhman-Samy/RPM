@@ -11,7 +11,7 @@ export default function ControlWidget({ title, icon, handleToggle}) {
   const theme = useTheme();
 
   function handleToggle() {
-    console.log("Fan toggled");
+    console.log(`Toggled ${title}!`); // TODO: replace with `handleToggle
     setIsOn((prev) => !prev);
   }
 
