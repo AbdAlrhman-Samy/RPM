@@ -11,6 +11,8 @@ import { CombinedDarkTheme, CombinedDefaultTheme } from "./constants/theme";
 
 import useNetwork from "./hooks/useNetwork";
 import useAuth from "./hooks/useAuth";
+import useToken from "./hooks/useToken";
+import { ToastAndroid } from "react-native";
 
 global.EventSource = eventsource;
 
@@ -20,6 +22,18 @@ export default function App() {
   const { isLoggedIn } = useAuth();
 
   const theme = isDarkTheme? CombinedDarkTheme : CombinedDefaultTheme;
+
+  const { error, isMutating } = useToken();
+
+  if (error) {
+    alert("Error getting token");
+    console.log(error);
+  }
+
+  if (isMutating) {
+    ToastAndroid.show("Refreshing token", ToastAndroid.SHORT);
+  }
+
 
   return (
     <>

@@ -23,7 +23,7 @@ export default function Gauge({ title, icon, max, value, unit }) {
         width={15}
         fill={(value / max) * 100}
         tintColor={"limegreen"}
-        backgroundColor={theme.colors.accent}
+        backgroundColor={theme.colors.background}
         tintColorSecondary="orangered"
         arcSweepAngle={240}
         rotation={240}

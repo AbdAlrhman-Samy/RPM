@@ -3,15 +3,19 @@ import HouseHeader from "../components/HouseHeader";
 import HouseControls from "../components/HouseControls";
 import Gauge from "../components/Gauge";
 import HouseStatus from "../components/HouseStatus";
+import { useIsFocused } from "@react-navigation/native";
 
 export default function HouseScreen() {
+
+  const isFocused = useIsFocused();
+
   return (
     <View style={styles.container}>
       <HouseHeader />
 
       <View style={styles.content}>
         <HouseControls />
-        <HouseStatus />
+        <HouseStatus isFocused={isFocused} />
       </View>
     </View>
   );
