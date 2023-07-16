@@ -21,7 +21,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.srcsticsamy.RPM"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -36,6 +37,8 @@
     },
     "updates": {
       "url": "https://u.expo.dev/f2247248-6919-4276-9620-72554d9ccb51"
-    }
+    }, "plugins": [
+    "@notifee/react-native"
+  ]
   }
 }
