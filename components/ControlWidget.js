@@ -2,12 +2,11 @@ import { StyleSheet } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Card, Switch, Text, useTheme } from "react-native-paper";
 import { useEffect, useState } from "react";
+import * as SecureStore from "expo-secure-store";
 import axios from "axios";
-import useToken from "../hooks/useToken";
 
 export default function ControlWidget({ title, icon, pid }) {
   const ESP32_ID = process.env.ESP32_ID;
-  const { token } = useToken();
 
   const [isOn, setIsOn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -17,6 +16,13 @@ export default function ControlWidget({ title, icon, pid }) {
   async function handleToggle() {
     console.log(`Toggling ${title}: `, !isOn);
     setIsLoading(true);
+
+    let token = await SecureStore.getItemAsync("token");
+    if (!token) {
+      console.log("ControlWidget: Token wasn't found.");
+      return;
+    }
+    console.log("ControlWidget: Token obtained.");
     await axios
       .put(
         `https://api2.arduino.cc/iot/v2/things/${ESP32_ID}/properties/${pid}/publish`,
@@ -28,7 +34,7 @@ export default function ControlWidget({ title, icon, pid }) {
         }
       )
       .then((res) => {
-        console.log("Response: ", res.status)
+        console.log("Response: ", res.status);
         setIsLoading(false);
         setIsOn(!isOn);
       })
@@ -40,40 +46,40 @@ export default function ControlWidget({ title, icon, pid }) {
   }
 
   useEffect(() => {
-
     async function fetchProperty() {
       setIsLoading(true);
-      await axios.get(
-        `https://api2.arduino.cc/iot/v2/things/${ESP32_ID}/properties/${pid}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      ).then((res) => {
-        setIsLoading(false);
-        setIsOn(res.data.last_value);
-      }).catch((err) => {
-        console.log(err);
-        setIsLoading(false);
-      })
+      let token = await SecureStore.getItemAsync("token");
+      if (!token) {
+        console.log("ControlWidget: Token wasn't found.");
+        return;
+      }
+      console.log("ControlWidget: Token obtained.");
+      await axios
+        .get(
+          `https://api2.arduino.cc/iot/v2/things/${ESP32_ID}/properties/${pid}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        .then((res) => {
+          setIsLoading(false);
+          setIsOn(res.data.last_value);
+        })
+        .catch((err) => {
+          console.log(err);
+          setIsLoading(false);
+        });
     }
 
-    if(token){
-      fetchProperty()
-    }
-    
-  }, [token])
-  
-
-  // const {data, isLoading: isPropLoading} = useProperty(ESP32_ID, pid, true);
-  
-  // if (data) console.log(title, data.last_value)
+    fetchProperty();
+  }, []);
 
   return (
     <Card style={styles.container}>
       <MaterialCommunityIcons
-        name={isOn? icon.on : icon.off}
+        name={isOn ? icon.on : icon.off}
         size={32}
         color={isOn ? theme.colors.primary : theme.colors.disabled}
         style={{ alignSelf: "center" }}

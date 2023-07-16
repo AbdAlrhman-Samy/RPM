@@ -3,6 +3,7 @@ import axios from "axios";
 import { useEffect } from "react";
 
 const tokenFetcher = async (url) => {
+  console.log("Token fetcher running...")
   const res = await axios.post(
     url,
     {
@@ -28,14 +29,16 @@ export default function useToken() {
   );
 
   useEffect(() => {
-    trigger(); // trigger the mutation to get the token on first render
+    if(!data){
+      trigger(); // trigger the mutation to get the token on first render
+    }
 
     const interval = setInterval(() => {
       trigger();
     }, 1000 * 60 * 4); // referesh token every 4 minutes because token dies in 5 minutes
 
     return () => clearInterval(interval);
-  }, []);
+  }, [data]);
 
   return {
     token: data,

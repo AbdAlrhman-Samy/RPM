@@ -1,5 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
+import * as SecureStore from 'expo-secure-store';
 
 import eventsource from "react-native-sse";
 
@@ -23,7 +24,7 @@ export default function App() {
 
   const theme = isDarkTheme? CombinedDarkTheme : CombinedDefaultTheme;
 
-  const { error, isMutating } = useToken();
+  const { token, error, isMutating } = useToken();
 
   if (error) {
     alert("Error getting token");
@@ -32,6 +33,10 @@ export default function App() {
 
   if (isMutating) {
     ToastAndroid.show("Refreshing token", ToastAndroid.SHORT);
+  }
+
+  if (token) {
+    save("token", token) 
   }
 
 
@@ -48,4 +53,19 @@ export default function App() {
       </PaperProvider>
     </>
   );
+}
+
+
+async function save(key, value) {
+  await SecureStore.setItemAsync(key, value);
+  console.log("APP.JS: Token secured!")
+}
+
+async function getValueFor(key) {
+  let result = await SecureStore.getItemAsync(key);
+  if (result) {
+    alert("🔐 Here's your value 🔐 \n" + result);
+  } else {
+    alert('No values stored under that key.');
+  }
 }
