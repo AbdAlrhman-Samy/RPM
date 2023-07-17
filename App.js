@@ -17,6 +17,9 @@ import { ToastAndroid } from "react-native";
 
 global.EventSource = eventsource;
 
+import notifee, { EventType } from "@notifee/react-native";
+
+
 export default function App() {
   const [isDarkTheme, setIsDarkTheme] = useState(true);
   const isConnected = useNetwork();
@@ -38,6 +41,15 @@ export default function App() {
   if (token) {
     save("token", token) 
   }
+
+  // set background notifications to appear even when app is closed
+  notifee.onBackgroundEvent(async ({ type, detail }) => {
+    if (type === EventType.TRIGGER_NOTIFICATION) {
+      const { notification } = detail;
+      console.log("Background notification: ", notification);
+    }
+  });
+
 
 
   return (
@@ -69,3 +81,15 @@ async function getValueFor(key) {
     alert('No values stored under that key.');
   }
 }
+
+// async function requestNotificationPermissions() {
+//   const settings = await notifee.requestPermission();
+
+//   if (settings.authorizationStatus === AuthorizationStatus.DENIED) {
+//     console.log("User denied permissions request");
+//   } else if (settings.authorizationStatus === AuthorizationStatus.AUTHORIZED) {
+//     console.log("User granted permissions request");
+//   } else if (settings.authorizationStatus === AuthorizationStatus.PROVISIONAL) {
+//     console.log("User provisionally granted permissions request");
+//   }
+// }

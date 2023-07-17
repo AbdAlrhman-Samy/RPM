@@ -1,7 +1,6 @@
-import { FlatList, StyleSheet } from "react-native";
+import { FlatList, StyleSheet, ToastAndroid } from "react-native";
 import {
   ActivityIndicator,
-  Button,
   Divider,
   IconButton,
   List,
@@ -9,18 +8,23 @@ import {
   Text,
 } from "react-native-paper";
 import pb from "../pocketbase";
+import { useState } from "react";
 
 export default function MedsList({ meds, isLoading, isValidating, mutate }) {
 
+  const [isDeleting, setIsDeleting] = useState(false);
+
   async function handleDeleteMedication(id) {
+    setIsDeleting(true);
     try {
       await pb.collection('meds').delete(id);
+      ToastAndroid.show("Medication deleted.", ToastAndroid.SHORT);
       mutate();
     } catch (err) {
       console.log(err.message);
-      alert(`Error: ${err.message}`);
+      ToastAndroid.show("Error deleting medication.", ToastAndroid.SHORT);
     }
-    
+    setIsDeleting(false);
   }
 
   return (
@@ -47,7 +51,7 @@ export default function MedsList({ meds, isLoading, isValidating, mutate }) {
                 title={item.name}
                 description={`At ${item.time}`}
                 left={(props) => <List.Icon {...props} icon="pill" />}
-                right={(props) => (<IconButton {...props} icon="delete" iconColor="indianred" mode="contained" size={24} onPress={() => handleDeleteMedication(item.id)} />)}
+                right={(props) => (<IconButton {...props} icon="delete" iconColor="indianred" mode="contained" size={24} onPress={() => handleDeleteMedication(item.id)} disabled={isDeleting || isValidating} />)}
               />
               <Divider />
             </>

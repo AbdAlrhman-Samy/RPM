@@ -10,8 +10,9 @@ export default function VitalChart({ vital }) {
   const HEART_RATE_PID = "4508b65c-343a-48d1-b4ed-793fbb2fe789";
   const SPO2_PID = "35c0fdd7-ef9b-4c92-8598-bd7973e44289";
 
-  const pid = vital === "Heart Rate" ? HEART_RATE_PID : SPO2_PID;
-  // const pid = "93d9236e-a3a2-499a-a266-0213ba4f64e4";
+  // !: change this to use correct pid when they have data
+  // const pid = vital === "Heart Rate" ? HEART_RATE_PID : SPO2_PID;
+  const pid = "93d9236e-a3a2-499a-a266-0213ba4f64e4";
 
   const width = useWindowDimensions().width;
   const height = useWindowDimensions().height;

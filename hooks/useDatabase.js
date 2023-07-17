@@ -3,9 +3,13 @@ import pb from "../pocketbase";
 
 async function fetcher(collection, filter) {
   try {
-    return await pb.collection(collection).getList(1, 50, {
-      filter,
+    if(filter){
+      return await pb.collection(collection).getList(1, 50, {
+      filter
     });
+    } else {
+      return await pb.collection(collection).getList(1, 50);
+    }
   } catch (err) {
     console.log(err);
     alert("Error getting meds", err);

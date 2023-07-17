@@ -1,5 +1,5 @@
 import { StyleSheet, ToastAndroid, View } from "react-native";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button, Text } from "react-native-paper";
 import MedsList from "../components/MedsList";
 import MedsModal from "../components/MedsModal";
@@ -18,11 +18,8 @@ export default function MedsScreen({ route }) {
   } = useDatabase("meds", `day="${day}"`);
 
   if (error) {
-    alert("Error getting meds", error);
-  }
-
-  if (isValidating) {
-    ToastAndroid.show("Checking for updates...", ToastAndroid.SHORT);
+    ToastAndroid.show("Error getting medications", ToastAndroid.SHORT);
+    console.log(error);
   }
 
   return (
@@ -31,16 +28,23 @@ export default function MedsScreen({ route }) {
         {day} Medications
       </Text>
 
-      <MedsList meds={meds} isLoading={isLoading} mutate={mutate} />
+      <MedsList meds={meds} isLoading={isLoading} mutate={mutate} isValidating={isValidating} />
 
       <Button
         mode="contained"
         onPress={() => setIsVisible(true)}
-        style={{ marginHorizontal: 32 }}>
-        Add Medication
+        style={{ marginHorizontal: 32 }}
+        disabled={isLoading || isValidating}
+        >
+        {isLoading || isValidating ? "Loading..." : "Add Medication"}
       </Button>
 
-      <MedsModal isVisible={isVisible} setIsVisible={setIsVisible} day={day} mutate={mutate} />
+      <MedsModal
+        isVisible={isVisible}
+        setIsVisible={setIsVisible}
+        day={day}
+        mutate={mutate}
+      />
     </View>
   );
 }
@@ -59,138 +63,3 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
   },
 });
-
-// TODO: Replace this with data from the database
-const dummyData = [
-  {
-    day: "Monday",
-    meds: [
-      {
-        name: "Aspirin",
-        dosage: "100mg",
-        time: "8:00",
-      },
-      {
-        name: "Lisinopril",
-        dosage: "10mg",
-        time: "12:00",
-      },
-      {
-        name: "Metoprolol",
-        dosage: "25mg",
-        time: "3:00",
-      },
-    ],
-  },
-
-  {
-    day: "Tuesday",
-    meds: [
-      {
-        name: "Atorvastatin",
-        dosage: "20mg",
-        time: "9:00",
-      },
-      {
-        name: "Ibuprofen",
-        dosage: "100mg",
-        time: "8:00",
-      },
-      {
-        name: "Catafast",
-        dosage: "10mg",
-        time: "12:00",
-      },
-    ],
-  },
-
-  {
-    day: "Wednesday",
-    meds: [
-      {
-        name: "Aspirin",
-        dosage: "100mg",
-        time: "8:00",
-      },
-      {
-        name: "Lisinopril",
-        dosage: "10mg",
-        time: "12:00",
-      },
-    ],
-  },
-
-  {
-    day: "Thursday",
-    meds: [
-      {
-        name: "Atorvastatin",
-        dosage: "20mg",
-        time: "9:00",
-      },
-      {
-        name: "Ibuprofen",
-        dosage: "100mg",
-        time: "8:00",
-      },
-    ],
-  },
-
-  {
-    day: "Friday",
-    meds: [
-      {
-        name: "Ibuprofen",
-        dosage: "100mg",
-        time: "8:00",
-      },
-      {
-        name: "Catafast",
-        dosage: "10mg",
-        time: "12:00",
-      },
-    ],
-  },
-
-  {
-    day: "Saturday",
-    meds: [
-      {
-        name: "Aspirin",
-        dosage: "100mg",
-        time: "8:00",
-      },
-      {
-        name: "Lisinopril",
-        dosage: "10mg",
-        time: "12:00",
-      },
-      {
-        name: "Metoprolol",
-        dosage: "25mg",
-        time: "3:00",
-      },
-    ],
-  },
-
-  {
-    day: "Sunday",
-    meds: [
-      {
-        name: "Aspirin",
-        dosage: "100mg",
-        time: "8:00",
-      },
-      {
-        name: "Lisinopril",
-        dosage: "10mg",
-        time: "12:00",
-      },
-      {
-        name: "Metoprolol",
-        dosage: "25mg",
-        time: "3:00",
-      },
-    ],
-  },
-];

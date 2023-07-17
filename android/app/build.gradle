@@ -113,7 +113,7 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.rpm"
+    namespace 'com.srcsticsamy.RPM'
     defaultConfig {
         applicationId 'com.srcsticsamy.RPM'
         minSdkVersion rootProject.ext.minSdkVersion

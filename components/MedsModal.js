@@ -12,6 +12,66 @@ import {
 import { TimePickerModal } from "react-native-paper-dates";
 import pb from "../pocketbase";
 
+import notifee, { AndroidImportance, TriggerType } from "@notifee/react-native";
+
+async function createTimedNotification(day, hours, minutes, medName) {
+  const channelId = await notifee.createChannel({
+    id: "default",
+    name: "Default Channel",
+    importance: AndroidImportance.HIGH,
+  });
+
+  const notificationId = `${medName}-${day}-${hours}-${minutes}`
+
+  await notifee.getTriggerNotifications().then(async (ids) => {
+    if (ids.includes(notificationId)) {
+      await notifee.cancelNotification(notificationId)
+    }
+  });
+
+
+  const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+  const date = new Date(Date.now());
+  date.setDate(date.getDate() + (7 + days.indexOf(day) - date.getDay()) % 7);
+  date.setHours(hours);
+  date.setMinutes(minutes);
+  date.setSeconds(0);
+
+  const currentDate = new Date(Date.now());
+
+  if (currentDate > date) {
+    date.setDate(date.getDate() + 7);
+  }
+
+  // Create a time-based trigger
+  const trigger = {
+    type: TriggerType.TIMESTAMP,
+    timestamp: date.getTime(),
+  };
+
+  try {
+    // Create a trigger notification
+    await notifee.createTriggerNotification(
+      {
+        title: "Medication Reminder",
+        body: `Alert the patient to take ${medName} at ${hours}:${minutes}`,
+        android: {
+          channelId,
+        },
+        id: notificationId
+      },
+      trigger
+    );
+
+    console.log(`Notification created for ${medName} at ${date}`)
+  } catch (e) {
+    console.log("Error: ", e);
+  }
+
+}
+
+
 export default function MedsModal({ isVisible, setIsVisible, day, mutate }) {
   const { colors } = useTheme();
 
@@ -39,7 +99,8 @@ export default function MedsModal({ isVisible, setIsVisible, day, mutate }) {
     setIsLoading(true);
 
     try {
-      const record = await pb.collection("meds").create(data);
+      await pb.collection("meds").create(data);
+      await createTimedNotification(day, parseInt(time.split(":")[0]), parseInt(time.split(":")[1]), name)
       mutate();
       setIsVisible(false);
       setName("");
