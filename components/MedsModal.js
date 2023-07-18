@@ -58,8 +58,19 @@ async function createTimedNotification(day, hours, minutes, medName) {
         body: `Alert the patient to take ${medName} at ${hours}:${minutes}`,
         android: {
           channelId,
+          actions: [
+            {
+              title: "Take Medication",
+              pressAction: {
+                id: "send-reminder",
+              }
+            }
+          ]
         },
-        id: notificationId
+        id: notificationId,
+        data: {
+          medName,
+        }
       },
       trigger
     );
@@ -115,6 +126,8 @@ export default function MedsModal({ isVisible, setIsVisible, day, mutate }) {
 
     setIsLoading(false);
   }
+
+  const date = new Date(Date.now());
 
   return (
     <Portal>
@@ -183,6 +196,16 @@ export default function MedsModal({ isVisible, setIsVisible, day, mutate }) {
           icon={isLoading ? "loading" : "plus"}
           loading={isLoading}>
           Add Medication
+        </Button>
+
+        <Button
+          mode="outlined"
+          onPress={() => {
+            createTimedNotification(day, date.getHours(), date.getMinutes() + 1, "Test Medication")
+          }}
+          style={{ marginTop: 16 }}
+          icon="bell">
+          Test Notification
         </Button>
       </Modal>
     </Portal>

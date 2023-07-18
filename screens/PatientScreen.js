@@ -9,6 +9,13 @@ import notifee, { AndroidImportance, TriggerType } from "@notifee/react-native";
 
 async function createTimedNotification(day, hours, minutes, medName) {
 
+  await notifee.getChannels().then(async (channels) => {
+    channels.forEach(async (channel) => {
+      await notifee.deleteChannel(channel.id);
+    });
+  });
+
+
   const channelId = await notifee.createChannel({
     id: "default",
     name: "Default Channel",
@@ -52,6 +59,15 @@ async function createTimedNotification(day, hours, minutes, medName) {
         body: `Alert the patient to take ${medName} at ${hours}:${minutes}`,
         android: {
           channelId,
+          actions: [
+            {
+              title: "Take Medication",
+              pressAction: {
+                id: "take-medication",
+                launchActivity: "default",
+              }
+            }
+          ]
         },
         id: `${medName}-${day}-${hours}-${minutes}`,
       },
