@@ -198,15 +198,6 @@ export default function MedsModal({ isVisible, setIsVisible, day, mutate }) {
           Add Medication
         </Button>
 
-        <Button
-          mode="outlined"
-          onPress={() => {
-            createTimedNotification(day, date.getHours(), date.getMinutes() + 1, "Test Medication")
-          }}
-          style={{ marginTop: 16 }}
-          icon="bell">
-          Test Notification
-        </Button>
       </Modal>
     </Portal>
   );

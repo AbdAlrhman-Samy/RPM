@@ -1,5 +1,5 @@
 import { StyleSheet, View } from "react-native";
-import { Text, useTheme } from "react-native-paper";
+import { Chip, Text, useTheme } from "react-native-paper";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 export default function HouseHeader() {
@@ -17,6 +17,7 @@ export default function HouseHeader() {
         <Text variant="displaySmall" style={{ fontWeight: "bold" }}>
           House
         </Text>
+        <Chip icon="wifi">Connected</Chip>
       </View>
     </View>
   );

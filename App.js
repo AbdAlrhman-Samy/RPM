@@ -26,7 +26,7 @@ export default function App() {
   const NANO_ID = process.env.ARDUINO_NANO_ID;
   const MED_PID = "59cdb8d0-6423-4f3a-9fc6-2b1f4d9bb60d"
 
-  const [isDarkTheme, setIsDarkTheme] = useState(true);
+  const [isDarkTheme, setIsDarkTheme] = useState(!true);
   const isConnected = useNetwork();
   const { isLoggedIn } = useAuth();
 

@@ -4,7 +4,7 @@ import { Button, Text, TextInput, useTheme } from "react-native-paper";
 
 import useAuth from "../hooks/useAuth";
 
-export default function AuthScreen({ setIsLoggedIn, isConnected }) {
+export default function AuthScreen({ isConnected }) {
   const { colors } = useTheme();
 
   const [email, setEmail] = useState("");
@@ -14,8 +14,7 @@ export default function AuthScreen({ setIsLoggedIn, isConnected }) {
   const {login, isLoading, error} = useAuth()
 
   function handleLogin() {
-    // !: replace creds with email and password variables
-    login("main@rpm.com", "1234567890").then(() => {
+    login(email, password).then(() => {
       setPassword("");
       setEmail("");
     });

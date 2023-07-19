@@ -1,12 +1,10 @@
-import { Pressable, StyleSheet } from "react-native";
+import { Pressable, StyleSheet, ToastAndroid } from "react-native";
 import { MaterialCommunityIcons as Icon } from "@expo/vector-icons";
-import { ActivityIndicator, Card, Text, useTheme } from "react-native-paper";
+import { Card, Text } from "react-native-paper";
 import { useIsFocused } from "@react-navigation/native";
 import useProperty from "../hooks/useProperty";
 
 export default function Widget({ title, unit, icon, onPress, pid }) {
-
-  const theme = useTheme();
 
   const isFocused = useIsFocused();
 
@@ -15,13 +13,12 @@ export default function Widget({ title, unit, icon, onPress, pid }) {
   const {
     data: property,
     error,
-    isLoading,
   } = useProperty(NANO_ID, pid, isFocused);
 
-  if (error) alert("Couldn't fetch property ", title);
+  if (error) ToastAndroid.show(`Couldn't fetch property ${title}`);
 
   return (
-    <Card style={[styles.container, { borderLeftColor: icon.color }]}>
+    <Card style={{ borderLeftWidth: 4, borderLeftColor: icon.color }}>
       <Pressable
         onPress={onPress}
         android_ripple={{ color: "lightgrey", borderless: true }}>
@@ -47,11 +44,6 @@ export default function Widget({ title, unit, icon, onPress, pid }) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    borderLeftWidth: 4,
-  },
-
   content: {
     alignItems: "center",
     marginBottom: 12,

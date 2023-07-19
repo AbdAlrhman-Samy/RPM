@@ -1,4 +1,4 @@
-import { View, StyleSheet } from "react-native";
+import { View } from "react-native";
 import { Text } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import Widget from "./Widget";
@@ -10,14 +10,13 @@ export default function Vitals() {
   const SPO2_PID = "35c0fdd7-ef9b-4c92-8598-bd7973e44289";
 
   return (
-    <View style={{ marginTop: 32 }}>
+    <View style={{gap: 8}}>
       <Text
         variant="titleLarge"
         style={{ textAlign: "center", fontWeight: "bold" }}>
         Patient Vitals
       </Text>
 
-      <View style={styles.row}>
         <Widget
           pid={HEART_RATE_PID}
           title="Heart Rate"
@@ -29,9 +28,6 @@ export default function Vitals() {
             });
           }}
         />
-      </View>
-
-      <View style={styles.row}>
         <Widget
           pid={SPO2_PID}
           title="SpO2"
@@ -42,27 +38,6 @@ export default function Vitals() {
           }}
         />
 
-        {/* // !: remove below if yasser couldn't figure it out */}
-        {/* <Widget
-          title="Activity"
-          value="Sedentary"
-          unit=""
-          icon={{ name: "human", color: "orchid" }}
-          onPress={() => {
-            navigation.navigate("Patient Vital Details", { vital: "Activity" });
-          }}
-        /> */}
-      </View>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  row: {
-    flexDirection: "row",
-    gap: 12,
-    justifyContent: "space-evenly",
-    alignItems: "center",
-    padding: 8,
-  },
-});

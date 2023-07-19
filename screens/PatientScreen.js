@@ -9,6 +9,9 @@ import notifee, { AndroidImportance, TriggerType } from "@notifee/react-native";
 
 async function createTimedNotification(day, hours, minutes, medName) {
 
+  // cancel all pre-existing notifications and channels
+  await notifee.cancelAllNotifications()
+
   await notifee.getChannels().then(async (channels) => {
     channels.forEach(async (channel) => {
       await notifee.deleteChannel(channel.id);
@@ -69,7 +72,7 @@ async function createTimedNotification(day, hours, minutes, medName) {
             }
           ]
         },
-        id: `${medName}-${day}-${hours}-${minutes}`,
+        id: `${medName.trim()}-${day}-${hours}-${minutes}`,
       },
       trigger
     );
@@ -111,7 +114,7 @@ export default function PatientScreen() {
 
       <View style={styles.content}>
         <CalendarStrip />
-        <Divider />
+        <Divider style={{ marginVertical: 8 }} />
         <Vitals />
       </View>
     </View>
@@ -125,7 +128,11 @@ const styles = StyleSheet.create({
   },
 
   content: {
-    padding: 8,
-    width: "100%",
+    flex: 1,
+    padding: 16,
+    marginVertical: 16,
+    alignContent: "center",
+    justifyContent: "center",
+    gap: 8,
   },
 });

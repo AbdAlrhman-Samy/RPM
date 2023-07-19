@@ -4,6 +4,7 @@ import HouseControls from "../components/HouseControls";
 import Gauge from "../components/Gauge";
 import HouseStatus from "../components/HouseStatus";
 import { useIsFocused } from "@react-navigation/native";
+import { Divider, Text } from "react-native-paper";
 
 export default function HouseScreen() {
 
@@ -14,7 +15,15 @@ export default function HouseScreen() {
       <HouseHeader />
 
       <View style={styles.content}>
+        <Text variant="titleLarge" style={styles.title}>
+          House Controls
+        </Text>
         <HouseControls />
+
+        <Divider style={{marginVertical: 32}}/>
+        <Text variant="titleLarge" style={styles.title}>
+          House Sensors
+        </Text>
         <HouseStatus isFocused={isFocused} />
       </View>
     </View>
