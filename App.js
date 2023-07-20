@@ -13,7 +13,7 @@ import { CombinedDarkTheme, CombinedDefaultTheme } from "./constants/theme";
 import useNetwork from "./hooks/useNetwork";
 import useAuth from "./hooks/useAuth";
 import useToken from "./hooks/useToken";
-import { ToastAndroid } from "react-native";
+import { Appearance, ToastAndroid } from "react-native";
 
 global.EventSource = eventsource;
 
@@ -26,7 +26,8 @@ export default function App() {
   const NANO_ID = process.env.ARDUINO_NANO_ID;
   const MED_PID = "59cdb8d0-6423-4f3a-9fc6-2b1f4d9bb60d"
 
-  const [isDarkTheme, setIsDarkTheme] = useState(!true);
+  // set dark theme based on user preference
+  const [isDarkTheme, setIsDarkTheme] = useState(Appearance.getColorScheme() === "dark")
   const isConnected = useNetwork();
   const { isLoggedIn } = useAuth();
 
